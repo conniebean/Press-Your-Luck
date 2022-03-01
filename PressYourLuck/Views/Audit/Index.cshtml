@@ -1,0 +1,53 @@
+﻿@model AuditViewModel
+@using Microsoft.AspNetCore.Http;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="text-center">
+    <div class="jumbotron text-black font-weight-bold text-center" style="background-image: url(https://live.staticflickr.com/5544/10307542203_8ecae47c05_b.jpg); ">
+        <h1>Audits</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <ul class="nav nav-tabs">
+                @foreach (AuditType auditType in Model.AuditTypeList)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link @Model.CheckActiveAuditTypeId(auditType.AuditTypeID)"
+                           aria-current="page"
+                           asp-route-activeAuditTypeID="@auditType.AuditTypeID">@auditType.Name</a>
+
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <table class="table table-striped table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Date Created</th>
+                <th>Player Name</th>
+                <th>Audit Type</th>
+                <th>Amount</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Audit item in Model.AuditList)
+            {
+                <tr>
+                    <td>@item.CreatedDate</td>
+                    <td>@item.PlayerName</td>
+                    <td>@item.AuditType.Name</td>
+                    <td>@item.Amount.ToString("C2")</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

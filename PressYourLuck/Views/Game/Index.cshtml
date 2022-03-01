@@ -1,0 +1,72 @@
+﻿@model List<Tile>
+
+<br />
+<div class="row justify-content-evenly">
+    <div class="d-grid gap-4 col-sm-8">
+        <h5>Current bet: @CoinsHelper.GetCurrentBet(Context).ToString("C2")</h5>
+    </div>
+    
+    <div class="d-grid gap-4 col-3 mx-auto justify-content-sm-end">
+        @if (CoinsHelper.GetTotalCoins(Context) > double.Parse("0.00") &&
+          CoinsHelper.GetCurrentBet(Context) == double.Parse("0.00"))
+        {
+            <a asp-action="TryAgain" asp-controller="Game" class="btn btn-outline-danger text-dark">Try again!</a>
+        }
+        else if (CoinsHelper.GetCurrentBet(Context) == double.Parse("0.00") &&
+            CoinsHelper.GetTotalCoins(Context) == double.Parse("0.00"))
+        {
+            <a asp-action="Delete" asp-controller="Home" class="btn btn-outline-info text-dark">Better luck next time!</a>
+        }
+        else if (CoinsHelper.GetTotalCoins(Context) >= double.Parse("0.00") ||
+            CoinsHelper.GetCurrentBet(Context) >= double.Parse("0.00"))
+        {
+            <a asp-action="TakeTheCoins" asp-controller="Game" class="btn btn-outline-info text-dark">Take the coins!</a>
+        }
+
+    </div>
+    <br />
+</div>
+
+
+
+<div class="row">
+
+    @foreach (Tile tile in Model)
+    {
+
+        <div class="col-2">
+            <div class="card">
+                @if (tile.Visible == false)
+                {
+                    <img src="~/images/unknown.png" class="card-img-top" alt="...">
+                    <div>
+                        <div style="display: none">@tile.Value</div>
+                    </div>
+
+                    <a asp-route-id="@tile.TileIndex" asp-action="Reveal" asp-controller="Game" class="btn btn-info">Choose</a>
+                }
+                else if (tile.Value == "0.00")
+                {
+                    <img src="~/images/bust.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div>@tile.Value</div>
+
+                    </div>
+                }
+                else
+                {
+                    <img src="~/images/money.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <div>@tile.Value</div>
+
+                    </div>
+                }
+
+            </div>
+        </div>
+
+    }
+
+</div>
+
+

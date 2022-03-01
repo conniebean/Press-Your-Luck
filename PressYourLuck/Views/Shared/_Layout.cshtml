@@ -1,0 +1,85 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Press Your Luck</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            background-color: #09588A;
+        }
+
+        main {
+            background-color: #8DB5CF;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #8DB5CF ">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Press Your Luck</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="row navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-md-grow-1">
+                        <li class="nav-item col-md-4">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="Index">Audit</a>
+                        </li>
+                        @if (string.IsNullOrEmpty(GameHelper.GetPlayerName(Context)))
+                        {
+                            <li class="nav-item">
+                                <p>Total Coins: $0.00</p>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item col-4 offset-1">
+                                <p>Total Coins: @CoinsHelper.GetTotalCoins(Context).ToString("C2")</p>
+                            </li>
+                            @if (CoinsHelper.GetCurrentBet(Context) > 0 || CoinsHelper.GetTotalCoins(Context) > 0)
+                            {
+                                <li class="nav-item col-sm-3">
+                                    <a class="btn btn-outline-info text-dark nav-link" asp-controller="Home" asp-action="Delete">Cash Out</a>
+                                </li>
+                            }
+
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            
+
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert-info text-center">@TempData["Message"]</div>
+            }
+
+            @RenderBody()
+            
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - PressYourLuck
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,27 @@
+﻿
+@model GameViewModel
+
+@{
+    ViewData["Title"] = "Welcome to press your luck!!";
+
+}
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+<div class="jumbotron text-black font-weight-bold text-center" style="background-image: url(https://live.staticflickr.com/5544/10307542203_8ecae47c05_b.jpg); ">
+    <h2>Welcome,</h2><h1>@GameHelper.GetPlayerName(Context)!</h1>
+</div>
+<form method="post" asp-action="Index" asp-controller="Game">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group d-grid gap-2 col-8 mx-auto justify-content-lg-end text-center">
+        <label asp-for="CurrentBet">How many coins would you like to wager?</label>
+        <input type="text" asp-for="CurrentBet" />
+        <span asp-validation-for="CurrentBet" class="text-dark"></span>
+    </div>
+    <div class="text-center">
+        <button type="submit" class="btn btn-info text-dark">Start playing!</button>
+    </div>
+
+</form>
